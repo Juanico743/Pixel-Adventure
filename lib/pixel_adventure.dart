@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:ui';
 
+import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
@@ -8,7 +9,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:pixel_adventure/components/player.dart';
 import 'package:pixel_adventure/components/level.dart';
 
-class PixelAdventure extends FlameGame with HasKeyboardHandlerComponents, DragCallbacks{
+class PixelAdventure extends FlameGame
+    with HasKeyboardHandlerComponents, DragCallbacks, HasCollisionDetection{
 
   Color backgroundColor() => const Color(0xFF211F30);
   late final CameraComponent cam;
@@ -25,7 +27,7 @@ class PixelAdventure extends FlameGame with HasKeyboardHandlerComponents, DragCa
 
     final world = Level(
         player: player,
-        levelName: 'Level-02'
+        levelName: 'Level-01'
     );
 
     cam = CameraComponent.withFixedResolution(
