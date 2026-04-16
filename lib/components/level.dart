@@ -9,6 +9,8 @@ import 'package:pixel_adventure/components/player.dart';
 import 'package:pixel_adventure/components/saw.dart';
 import 'package:pixel_adventure/pixel_adventure.dart';
 
+import 'checkpoint.dart';
+
 class Level extends World with HasGameRef<PixelAdventure>{
   final String levelName;
   final Player player;
@@ -83,6 +85,13 @@ class Level extends World with HasGameRef<PixelAdventure>{
               size: Vector2(spawnPoint.width, spawnPoint.height),
             );
             add(saw);
+            break;
+          case 'Checkpoint':
+            final checkpoint = Checkpoint(
+              position: Vector2(spawnPoint.x, spawnPoint.y),
+              size: Vector2(spawnPoint.width, spawnPoint.height),
+            );
+            add(checkpoint);
             break;
           default:
         }
