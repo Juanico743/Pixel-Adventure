@@ -96,6 +96,7 @@ class PixelAdventure extends FlameGame
     }
   }
 
+
   void _loadLevel() {
     Future.delayed(const Duration(seconds: 1), () {
       final world = Level(
