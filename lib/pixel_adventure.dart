@@ -22,11 +22,15 @@ class PixelAdventure extends FlameGame
   late CameraComponent cam;
   Player player = Player(character: 'Virtual Guy');
   late JoystickComponent joystick;
-  bool showControls = true;
+  bool showControls = false;
+  bool playSounds = false;
+  double soundVolume = 1.0;
   List<String> levelNames  = [
-    'Level-01',
-    'Level-02',
-    'Level-03',
+    //'Level-01',
+    //'Level-02',
+    //'Challenge-01',
+    'Practice-01',
+    'Practice-02',
   ];
   int currentLevelIndex = 0;
 
@@ -101,6 +105,8 @@ class PixelAdventure extends FlameGame
         _loadLevel();
       } else {
         //no more levels
+        currentLevelIndex = 0;
+        _loadLevel();
       }
     });
   }

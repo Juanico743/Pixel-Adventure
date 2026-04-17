@@ -9,7 +9,9 @@ import 'package:pixel_adventure/components/player.dart';
 import 'package:pixel_adventure/components/saw.dart';
 import 'package:pixel_adventure/pixel_adventure.dart';
 
+import 'angry_pig.dart';
 import 'checkpoint.dart';
+import 'chicken.dart';
 
 class Level extends World with HasGameRef<PixelAdventure>{
   final String levelName;
@@ -67,10 +69,12 @@ class Level extends World with HasGameRef<PixelAdventure>{
             add(fruit);
             break;
           case 'Saw':
+            final hasDelay = spawnPoint.properties.getValue('hasDelay');
             final isVertical = spawnPoint.properties.getValue('isVertical');
             final offNeg = spawnPoint.properties.getValue('offNeg');
             final offPos = spawnPoint.properties.getValue('offPos');
             final saw = Saw(
+              hasDelay: hasDelay,
               isVertical: isVertical,
               offNeg: offNeg,
               offPos: offPos,
@@ -85,6 +89,28 @@ class Level extends World with HasGameRef<PixelAdventure>{
               size: Vector2(spawnPoint.width, spawnPoint.height),
             );
             add(checkpoint);
+            break;
+          case 'Chicken':
+            final offNeg = spawnPoint.properties.getValue('offNeg');
+            final offPos = spawnPoint.properties.getValue('offPos');
+            final chicken = Chicken(
+              position: Vector2(spawnPoint.x, spawnPoint.y),
+              size: Vector2(spawnPoint.width, spawnPoint.height),
+              offNeg: offNeg,
+              offPos: offPos,
+            );
+            add(chicken);
+            break;
+          case 'AngryPig':
+            final offNeg = spawnPoint.properties.getValue('offNeg');
+            final offPos = spawnPoint.properties.getValue('offPos');
+            final pig = AngryPig(
+              position: Vector2(spawnPoint.x, spawnPoint.y),
+              size: Vector2(spawnPoint.width, spawnPoint.height),
+              offNeg: offNeg,
+              offPos: offPos,
+            );
+            add(pig);
             break;
           default:
         }
