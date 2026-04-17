@@ -6,17 +6,23 @@ import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:pixel_adventure/components/jump_button.dart';
 import 'package:pixel_adventure/components/player.dart';
 import 'package:pixel_adventure/components/level.dart';
 
 class PixelAdventure extends FlameGame
-    with HasKeyboardHandlerComponents, DragCallbacks, HasCollisionDetection{
+    with
+        HasKeyboardHandlerComponents,
+        DragCallbacks,
+        HasCollisionDetection,
+        TapCallbacks
+{
 
   Color backgroundColor() => const Color(0xFF211F30);
   late CameraComponent cam;
   Player player = Player(character: 'Virtual Guy');
-  late JoystickComponent  joystick;
-  bool showJoystick = false;
+  late JoystickComponent joystick;
+  bool showControls = true;
   List<String> levelNames  = [
     'Level-01',
     'Level-02',
@@ -33,8 +39,9 @@ class PixelAdventure extends FlameGame
 
     _loadLevel();
 
-    if(showJoystick) {
+    if(showControls) {
       addJoystick();
+      add(JumpButton());
     }
 
     return super.onLoad();
@@ -42,7 +49,7 @@ class PixelAdventure extends FlameGame
 
   @override
   void update(double dt) {
-    if (showJoystick) {
+    if (showControls) {
       updateJoystick();
     }
     super.update(dt);
@@ -50,6 +57,7 @@ class PixelAdventure extends FlameGame
 
   void addJoystick() {
     joystick = JoystickComponent(
+      priority: 100,
       knob: SpriteComponent(
         sprite: Sprite(
           images.fromCache('HUD/Knob.png')
@@ -63,8 +71,7 @@ class PixelAdventure extends FlameGame
       margin: const EdgeInsets.only(left: 32, bottom: 32),
     );
 
-    cam.viewport.add(joystick);
-    //add(joystick);
+    add(joystick);
   }
 
   void updateJoystick() {
@@ -86,14 +93,16 @@ class PixelAdventure extends FlameGame
   }
 
   void loadNextLevel() {
-    removeWhere((component) => component is Level);
+    Future.delayed(const Duration(seconds: 1), () {
+      removeWhere((component) => component is Level);
 
-    if(currentLevelIndex < levelNames.length - 1){
-      currentLevelIndex++;
-      _loadLevel();
-    } else {
-      //no more levels
-    }
+      if(currentLevelIndex < levelNames.length - 1){
+        currentLevelIndex++;
+        _loadLevel();
+      } else {
+        //no more levels
+      }
+    });
   }
 
 
@@ -109,6 +118,10 @@ class PixelAdventure extends FlameGame
       );
 
       cam.viewfinder.anchor = Anchor.topLeft;
+
+      cam.priority = 0;
+      world.priority = 0;
+
       addAll([cam, world]);
     });
   }
